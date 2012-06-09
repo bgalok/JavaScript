@@ -1,32 +1,52 @@
-// Our deal function will return a random card
-var deal = function() {
-  card = Math.floor(Math.random()*52+1);
-  return card;
-};
+// Make your card constructor again here, but make sure to use private
+// variables!
+function Card(s,n) {
+    var suit = s;
+    var number =n;
+    this.getSuit = function(){
+        return suit;
+    };
+    this.getNumber = function(){
+        return number;
+    };
+    this.getValue = function(){
+        if(n >9){
+            return 10;
+        }else if(n === 1){
+            return 11;
+        }else {
+            return n;
+        }
+    };
+}
 
-// Deal out our first hand
-var card1 = deal();
-var card2 = deal();
-
-// This function takes a card as a parameter and returns the value
-// of that card
-var getValue = function(card) {
-  // if its a face card, number should be set to 10        
-    if(card%13 === 0 || card%13 === 11 || card%13 === 12) {
-        return 10;
-    }else    
-  // What if it's an ace?
-    if(card%13 === 1){
-        return 11;
+function Hand() {
+    var card1 = deal();
+    var card2 = deal();
+    this.score = function() {
+        return card1.getValue() + card2.getValue();
     }
-  // Otherwise, we just want its number value
-  return card%13;
-}
-        
-// Score the hand
-function score() {
-  return getValue(card1) + getValue(card2);
 }
 
-console.log("You have cards " + card1 + " and " + card2 +
-        " for a score of " + score(card1, card2));
+// Make a deal function here.  It should return a new card with a suit
+// that is a random number from 1 to 4, and a number that is a random
+// number between 1 and 13
+function deal(){
+    var s = Math.floor(Math.random()*4 + 1);
+    var n = Math.floor(Math.random()*13 + 1);
+    return new Card(s,n);
+}
+
+
+// examples of the deal function in action
+var myHand = new Hand(); 
+var yourHand = new Hand();
+
+console.log("I scored a "+myHand.score()+" and you scored a "+ yourHand.score());
+
+if(yourHand.score() > myHand.score())
+    console.log("you win!"); 
+else if(yourHand.score() < myHand.score()) 
+    console.log("I win!"); 
+else 
+    console.log("We tied!");
